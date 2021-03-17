@@ -1,4 +1,5 @@
 ﻿using System;
+using ChargingMonitor;
 using ChargingMonitor.Door;
 using ChargingMonitor.RFIDReader;
 using Ladeskab;
@@ -13,10 +14,11 @@ namespace MobileCharge_Handin2_Grp22
             Console.WriteLine("Hello World!");
 
             var door = new Door();
-            var charger = new UsbChargerSimulator();
+            var charger = new ChargeControl();
             var reader = new RfidReader();
+            var display = new Display();
 
-            var stationControl = new StationControl(door, charger, reader);
+            var stationControl = new StationControl(door, charger, reader, display);
 
             // Assemble your system here from all the classes
 
