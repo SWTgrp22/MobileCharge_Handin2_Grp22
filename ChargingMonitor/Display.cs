@@ -7,9 +7,9 @@ namespace ChargingMonitor
     public class Display
     {
 
-        public string ShowMessage()
+        public void ShowMessage(string meassage)
         {
-            return "";
+            Console.WriteLine(meassage);
         }
     }
 }

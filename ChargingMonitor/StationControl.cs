@@ -28,17 +28,36 @@ namespace Ladeskab
         private int _oldId;
         private IDoor _door;
         private IRFIDReader _reader;
+        private Display _display;
 
         private string logFile = "logfile.txt"; // Navnet på systemets log-fil
 
         // Her mangler constructor
 
         // Eksempel på event handler for eventet "RFID Detected" fra tilstandsdiagrammet for klassen
-        public StationControl(IDoor door, IChargeControl charger, IRFIDReader reader)
+        public StationControl(IDoor door, IChargeControl charger, IRFIDReader reader, Display display)
         {
             _door = door;
             _charger = charger;
             _reader = reader;
+            _display = display;
+            door.doorChangedEvent += HandleDoorEventArg;
+        }
+
+        private void HandleDoorEventArg(object sender, DoorEventArg e)
+        {
+            if (e.doorIsopen)
+            {
+              _display.ShowMessage("Tilslut telefon");
+              _state = LadeskabState.Available;
+            }
+            else
+            {
+                _display.ShowMessage("Hold dit RFID tag op til scanneren");
+                //RfidDetected();
+            }
+
+            throw new NotImplementedException();
         }
 
         private void RfidDetected(int id)

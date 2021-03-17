@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ChargingMonitor.Door
 {
-    public class DoorEventArg
+    public class DoorEventArg : EventArgs
     {
         public bool doorIsopen { get; set; }
     }
