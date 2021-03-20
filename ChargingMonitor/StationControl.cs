@@ -33,8 +33,6 @@ namespace Ladeskab
         private string logFile = "logfile.txt"; // Navnet på systemets log-fil
 
         // Her mangler constructor
-
-        // Eksempel på event handler for eventet "RFID Detected" fra tilstandsdiagrammet for klassen
         public StationControl(IDoor door, IChargeControl charger, IRFIDReader reader, Display display)
         {
             _door = door;
@@ -56,10 +54,9 @@ namespace Ladeskab
                 _display.ShowMessage("Hold dit RFID tag op til scanneren");
                 //RfidDetected();
             }
-
-            throw new NotImplementedException();
         }
 
+        // Eksempel på event handler for eventet "RFID Detected" fra tilstandsdiagrammet for klassen
         private void RfidDetected(int id)
         {
             switch (_state)
@@ -76,12 +73,12 @@ namespace Ladeskab
                             writer.WriteLine(DateTime.Now + ": Skab låst med RFID: {0}", id);
                         }
 
-                        Console.WriteLine("Skabet er låst og din telefon lades. Brug dit RFID tag til at låse op.");
+                        _display.ShowMessage("Skabet er låst og din telefon lades. Brug dit RFID tag til at låse op.");
                         _state = LadeskabState.Locked;
                     }
                     else
                     {
-                        Console.WriteLine("Din telefon er ikke ordentlig tilsluttet. Prøv igen.");
+                        _display.ShowMessage("Din telefon er ikke ordentlig tilsluttet. Prøv igen.");
                     }
 
                     break;
@@ -101,12 +98,12 @@ namespace Ladeskab
                             writer.WriteLine(DateTime.Now + ": Skab låst op med RFID: {0}", id);
                         }
 
-                        Console.WriteLine("Tag din telefon ud af skabet og luk døren");
+                        _display.ShowMessage("Tag din telefon ud af skabet og luk døren");
                         _state = LadeskabState.Available;
                     }
                     else
                     {
-                        Console.WriteLine("Forkert RFID tag");
+                        _display.ShowMessage("Forkert RFID tag");
                     }
 
                     break;
