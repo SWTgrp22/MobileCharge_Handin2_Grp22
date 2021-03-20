@@ -40,6 +40,7 @@ namespace Ladeskab
             _reader = reader;
             _display = display;
             door.doorChangedEvent += HandleDoorEventArg;
+            
         }
 
         private void HandleDoorEventArg(object sender, DoorEventArg e)
@@ -53,8 +54,11 @@ namespace Ladeskab
             {
                 _display.ShowMessage("Hold dit RFID tag op til scanneren");
                 //RfidDetected();
+                
             }
         }
+
+
 
         // Eksempel på event handler for eventet "RFID Detected" fra tilstandsdiagrammet for klassen
         private void RfidDetected(int id)

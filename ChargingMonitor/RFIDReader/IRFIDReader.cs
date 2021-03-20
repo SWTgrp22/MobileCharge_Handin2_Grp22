@@ -8,6 +8,6 @@ namespace ChargingMonitor.RFIDReader
     {
         public event EventHandler<RFIDReaderEventArg> RFIDReaderEvent;
 
-        public void Read();
+        public void RfidDetected(int id);
     }
 }
