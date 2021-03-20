@@ -14,7 +14,8 @@ namespace MobileCharge_Handin2_Grp22
             Console.WriteLine("Hello World!");
 
             var door = new Door();
-            var charger = new ChargeControl();
+            IUsbCharger usbCharger = new UsbChargerSimulator();
+            var charger = new ChargeControl(usbCharger);
             var reader = new RfidReader();
             var display = new Display();
 
