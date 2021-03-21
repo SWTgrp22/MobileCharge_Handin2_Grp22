@@ -5,9 +5,10 @@ namespace ChargingMonitor.Door
     public class Door : IDoor
     {
         public event EventHandler<DoorEventArg> doorChangedEvent;
-        private bool isDoorLocked = false;
-        private bool IsDoorOpen = false;
-        private bool oldDoorState = false;
+        public bool isDoorLocked { get; private set; } = false;
+        public bool IsDoorOpen { get; private set; } = false;
+        public bool oldDoorState = false;
+        
         public void LockDoor()
         {
             isDoorLocked = true;

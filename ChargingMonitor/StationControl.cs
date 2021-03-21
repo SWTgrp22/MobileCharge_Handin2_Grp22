@@ -29,6 +29,7 @@ namespace Ladeskab
         private IDoor _door;
         private IRFIDReader _reader;
         private Display _display;
+        private int _rfidID;
 
         private string logFile = "logfile.txt"; // Navnet på systemets log-fil
 
@@ -39,8 +40,9 @@ namespace Ladeskab
             _charger = charger;
             _reader = reader;
             _display = display;
-            door.doorChangedEvent += HandleDoorEventArg;
-            
+            door.doorChangedEvent += HandleDoorEventArg; //Svarer til at attatce til eventet
+            reader.RFIDReaderEvent += HandleRfidReaderEventArg;  //Svarer til at attatce til eventet
+
         }
 
         private void HandleDoorEventArg(object sender, DoorEventArg e)
@@ -58,6 +60,11 @@ namespace Ladeskab
             }
         }
 
+        private void HandleRfidReaderEventArg(object sender, RFIDReaderEventArg e)
+        {
+            _rfidID = e.ID; 
+            RfidDetected(_rfidID);
+        }
 
 
         // Eksempel på event handler for eventet "RFID Detected" fra tilstandsdiagrammet for klassen
