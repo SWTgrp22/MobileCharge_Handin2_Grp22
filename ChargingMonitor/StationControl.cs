@@ -45,6 +45,7 @@ namespace Ladeskab
 
         }
 
+        // Her mangler de andre trigger handlere
         private void HandleDoorEventArg(object sender, DoorEventArg e)
         {
             if (e.doorIsopen)
@@ -121,6 +122,6 @@ namespace Ladeskab
             }
         }
 
-        // Her mangler de andre trigger handlere
+        
     }
 }
