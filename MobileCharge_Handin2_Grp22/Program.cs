@@ -1,7 +1,7 @@
 ﻿using System;
 using ChargingMonitor;
 using ChargingMonitor.Door;
-using ChargingMonitor.Log;
+//using ChargingMonitor.Log;
 using ChargingMonitor.RFIDReader;
 using Ladeskab;
 using UsbSimulator;

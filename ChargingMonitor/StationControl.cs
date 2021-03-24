@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ChargingMonitor;
 using ChargingMonitor.Door;
-using ChargingMonitor.Log;
+//using ChargingMonitor.LogFiles;
 using ChargingMonitor.RFIDReader;
 using UsbSimulator;
 
