@@ -5,17 +5,13 @@ namespace ChargingMonitor.RFIDReader
     public class RfidReader : IRFIDReader
     {
         public event EventHandler<RFIDReaderEventArg> RFIDReaderEvent;
-        public bool Detected { get; private set; }
-        
-        private int _readId;
+        public bool Detected { get; private set; } = false;
 
         public void RfidDetected(int id)
         {
-            _readId = id;
-
             if (Detected)
             {
-                DetectedRfidTag(new RFIDReaderEventArg(){ID = _readId});
+                DetectedRfidTag(new RFIDReaderEventArg(){ID = id});
                 Detected = false;
             }
 
