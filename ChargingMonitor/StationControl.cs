@@ -33,7 +33,7 @@ namespace Ladeskab
         private int _rfidID;
         private ILog _log;
 
-        private string logFile = "logfile.txt"; // Navnet på systemets log-fil
+       // private string logFile = "logfile.txt"; // Navnet på systemets log-fil
 
         // Her mangler constructor
         public StationControl(IDoor door, IChargeControl charger, IRFIDReader reader, Display display, ILog log)
