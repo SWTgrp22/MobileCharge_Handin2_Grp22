@@ -33,6 +33,7 @@ namespace Ladeskab
         private int _rfidID;
         private ILog _log;
 
+        //Nu håber vi sgu lortet virker...
        // private string logFile = "logfile.txt"; // Navnet på systemets log-fil
 
         // Her mangler constructor
