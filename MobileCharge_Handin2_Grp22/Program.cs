@@ -1,6 +1,7 @@
 ﻿using System;
 using ChargingMonitor;
 using ChargingMonitor.Door;
+using ChargingMonitor.Log;
 using ChargingMonitor.RFIDReader;
 using Ladeskab;
 using UsbSimulator;
@@ -18,8 +19,9 @@ namespace MobileCharge_Handin2_Grp22
             var charger = new ChargeControl(usbCharger);
             var reader = new RfidReader();
             var display = new Display();
+            var log = new Log();
 
-            var stationControl = new StationControl(door, charger, reader, display);
+            var stationControl = new StationControl(door, charger, reader, display, log);
 
             // Assemble your system here from all the classes
 

@@ -54,7 +54,7 @@ namespace CharginMonitor.Test.Unit
             });
         }
 
-        [TestCase(-1)]
+        [TestCase(0)]
         [TestCase(6)]
         [TestCase(499)]
         [TestCase(500)]
