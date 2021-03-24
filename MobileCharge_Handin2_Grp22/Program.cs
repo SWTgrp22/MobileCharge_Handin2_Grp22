@@ -12,7 +12,7 @@ namespace MobileCharge_Handin2_Grp22
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            //fra ditte
+            
             var door = new Door();
             IUsbCharger usbCharger = new UsbChargerSimulator();
             var charger = new ChargeControl(usbCharger);
