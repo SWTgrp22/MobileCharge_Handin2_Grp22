@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ChargingMonitor.LogFiles;
 using ChargingMonitor.RFIDReader;
 using Ladeskab;
 using NSubstitute;
@@ -19,7 +20,7 @@ namespace ChargingMonitor.Test.Unit.RFID_testklasser
         {
             rfidReader = Substitute.For<IRFIDReader>();
             _uut = new StationControl(new Door.Door(), new ChargeControl(new UsbChargerSimulator()), rfidReader,
-                new Display(), new LogFiles.Log());
+                new Display(), new Log());
         }
 
         [TestCase(0)]

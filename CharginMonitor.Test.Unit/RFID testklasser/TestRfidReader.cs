@@ -55,7 +55,7 @@ namespace ChargingMonitor.Test.Unit
         {
             //Act
             _uut.SimulateDetection();
-            _uut.RfidDetected(0);
+            _uut.RfidDetected(21);
 
 
             //Assert
