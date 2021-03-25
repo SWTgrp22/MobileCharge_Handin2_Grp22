@@ -22,13 +22,25 @@ namespace ChargingMonitor.Test.Unit.Log_testklasser
         }
 
         [TestCase(2)]
+        [TestCase(10)]
+        [TestCase(100)]
+        [TestCase(1000)]
         public void LogDoorUnlock_DoorUnLockedLogged_FileWriterRecivesACall(int ID)
         {
             _uut.LogDoorUnLocked(ID);
-           // dateTime.
 
-            //fileWriter.Received(1).Write();
-            Assert.Pass();
+            fileWriter.Received(1).Write("", ": Skab låst op med RFID: ", ID);
+        }
+
+        [TestCase(2)]
+        [TestCase(10)]
+        [TestCase(100)]
+        [TestCase(1000)]
+        public void LogDoorUnlock_DoorLockedLogged_FileWriterRecivesACall(int ID)
+        {
+            _uut.LogDoorLocked(ID);
+
+            fileWriter.Received(1).Write("", ": Skab låst med RFID: ", ID);
         }
     }
 }
