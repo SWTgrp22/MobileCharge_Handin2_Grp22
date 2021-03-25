@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ChargingMonitor.RFIDReader
 {
-   public class RFIDReaderEventArg
+   public class RFIDReaderEventArg : EventArgs
     {
         public int ID { get; set; }
     }

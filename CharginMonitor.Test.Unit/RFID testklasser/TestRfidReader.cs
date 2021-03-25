@@ -62,5 +62,20 @@ namespace ChargingMonitor.Test.Unit
             Assert.That(_recevedEventArg, Is.Not.Null);
         }
 
+        [TestCase(0)]
+        [TestCase(210)]
+        [TestCase(555555)]
+        [TestCase(2147483647)]
+        public void RfidDetected_RfidTagDetected_EventIdIsEqualtoId(int id)
+        {
+            //Act
+            _uut.SimulateDetection();
+            _uut.RfidDetected(id);
+
+
+            //Assert
+            Assert.That(_recevedEventArg.ID, Is.EqualTo(id));
+        }
+
     }
 }

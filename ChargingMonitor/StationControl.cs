@@ -30,7 +30,7 @@ namespace Ladeskab
         private IDoor _door;
         private IRFIDReader _reader;
         private Display _display;
-        private int _rfidID;
+        public int _rfidID { get; private set; }
         private ILog _log;
         public string message = "";
 

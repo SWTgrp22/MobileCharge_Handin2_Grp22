@@ -9,7 +9,7 @@ namespace ChargingMonitor.Test.Unit.Log_testklasser
 {
     public class TestLog
     {
-        private Log _uut;
+        private LogFiles.Log _uut;
         private IWriter fileWriter;
         private IDateTime dateTime;
         [SetUp]
@@ -18,7 +18,7 @@ namespace ChargingMonitor.Test.Unit.Log_testklasser
             fileWriter = Substitute.For<IWriter>();
             dateTime = Substitute.For<IDateTime>();
 
-            _uut = new Log(fileWriter,dateTime);
+            _uut = new LogFiles.Log(fileWriter,dateTime);
         }
 
         [TestCase(2)]
