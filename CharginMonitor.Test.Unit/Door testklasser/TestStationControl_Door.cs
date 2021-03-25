@@ -20,7 +20,7 @@ namespace ChargingMonitor.Test.Unit
         {
             door = Substitute.For<IDoor>();
             _uut = new StationControl(door, new ChargeControl(new UsbChargerSimulator()), new RfidReader(),
-                new Display(), new Log());
+                new Display(), new LogFiles.Log());
         }
 
     }
