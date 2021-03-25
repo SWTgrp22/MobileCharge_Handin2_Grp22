@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ChargingMonitor
+namespace ChargingMonitor.LogFiles
 {
     public class Log : ILog
     {
