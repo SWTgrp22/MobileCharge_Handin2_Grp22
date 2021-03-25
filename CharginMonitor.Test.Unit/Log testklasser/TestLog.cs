@@ -52,9 +52,11 @@ namespace ChargingMonitor.Test.Unit.Log_testklasser
         }
 
         [TestCase()]//Forskellige timeStamps
-        public void LogDoorUnlock_DoorLockedLogged_FileWriterDateTimeRecivesACall(string message)
+        public void LogDoorUnlock_DoorLockedLogged_FileWriterDateTimeRecivesACall(string message, int id)
         {
             dateTime.timeStamp().Returns(message);
+
+            _uut.LogDoorLocked(id);
         }
     }
 }
