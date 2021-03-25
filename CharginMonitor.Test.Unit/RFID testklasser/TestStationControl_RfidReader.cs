@@ -20,7 +20,7 @@ namespace ChargingMonitor.Test.Unit.RFID_testklasser
         {
             rfidReader = Substitute.For<IRFIDReader>();
             _uut = new StationControl(new Door.Door(), new ChargeControl(new UsbChargerSimulator()), rfidReader,
-                new Display(), new Log());
+                new Display.Display(), new Log());
         }
 
         [TestCase(0)]
@@ -37,6 +37,6 @@ namespace ChargingMonitor.Test.Unit.RFID_testklasser
 
         }
 
-      
+
     }
 }

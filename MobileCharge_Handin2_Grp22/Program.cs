@@ -1,5 +1,6 @@
 ﻿using System;
 using ChargingMonitor;
+using ChargingMonitor.Display;
 using ChargingMonitor.Door;
 using ChargingMonitor.LogFiles;
 using ChargingMonitor.RFIDReader;

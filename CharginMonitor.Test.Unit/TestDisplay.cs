@@ -9,12 +9,12 @@ namespace ChargingMonitor.Test.Unit
 {
     public class TestDisplay
     {
-        private Display _uut;
+        private Display.Display _uut;
 
         [SetUp]
         public void SetUp()
         {
-            _uut = new Display();
+            _uut = new Display.Display();
         }
 
         [TestCase("Hold dit RFID tag op til scanneren")]

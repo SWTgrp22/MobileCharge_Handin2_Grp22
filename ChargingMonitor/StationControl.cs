@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ChargingMonitor;
+using ChargingMonitor.Display;
 using ChargingMonitor.Door;
 using ChargingMonitor.LogFiles;
 using ChargingMonitor.RFIDReader;
@@ -29,7 +30,7 @@ namespace Ladeskab
         private int _oldId;
         private IDoor _door;
         private IRFIDReader _reader;
-        private Display _display;
+        private IDisplay _display;
         public int _rfidID { get; private set; }
         private ILog _log;
         public string message = "";
@@ -38,7 +39,7 @@ namespace Ladeskab
        // private string logFile = "logfile.txt"; // Navnet på systemets log-fil
 
         // Her mangler constructor
-        public StationControl(IDoor door, IChargeControl charger, IRFIDReader reader, Display display, ILog log)
+        public StationControl(IDoor door, IChargeControl charger, IRFIDReader reader, IDisplay display, ILog log)
         {
             _door = door;
             _charger = charger;
