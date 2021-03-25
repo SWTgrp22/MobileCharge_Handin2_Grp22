@@ -15,7 +15,6 @@ namespace ChargingMonitor.LogFiles
 
         }
 
-
         public void Write(string dateTime, string s, int id)
         {
             using (var writer = File.AppendText(_filename))

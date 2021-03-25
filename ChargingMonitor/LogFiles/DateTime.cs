@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ChargingMonitor.LogFiles
 {
-    public class DateTime
+    public class DateTime:IDateTime
     {
         public string timeStamp()
         {

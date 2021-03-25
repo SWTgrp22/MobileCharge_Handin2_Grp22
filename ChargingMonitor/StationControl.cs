@@ -16,7 +16,7 @@ namespace Ladeskab
     public class StationControl  
     {
         // Enum med tilstande ("states") svarende til tilstandsdiagrammet for klassen
-        private enum LadeskabState
+        public enum LadeskabState
         {
             Available,
             Locked,
@@ -24,7 +24,7 @@ namespace Ladeskab
         };
 
         // Her mangler flere member variable
-        private LadeskabState _state;
+        public LadeskabState _state { get; private set; } 
         private IChargeControl _charger;
         private int _oldId;
         private IDoor _door;
@@ -32,6 +32,7 @@ namespace Ladeskab
         private Display _display;
         private int _rfidID;
         private ILog _log;
+        public string message = "";
 
         //Nu håber vi sgu lortet virker...
        // private string logFile = "logfile.txt"; // Navnet på systemets log-fil
@@ -52,13 +53,15 @@ namespace Ladeskab
         private void HandleDoorEventArg(object sender, DoorEventArg e)
         {
             if (e.doorIsopen)
-            {
-              _display.ShowMessage("Tilslut telefon");
+            { 
+                message = "Tilslut telefon";
+              _display.ShowMessage(message);
               _state = LadeskabState.Available;
             }
             else
             {
-                _display.ShowMessage("Hold dit RFID tag op til scanneren");
+                message = "Hold dit RFID tag op til scanneren";
+               _display.ShowMessage(message);
                 //RfidDetected();
                 
             }

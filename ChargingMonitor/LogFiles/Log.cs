@@ -4,8 +4,20 @@ namespace ChargingMonitor.LogFiles
 {
     public class Log : ILog
     {
-        private FileWriter writer = new FileWriter("Logfile.txt");
-        private DateTime timeStamp = new DateTime();
+        private IWriter writer;
+            //= new FileWriter("Logfile.txt");
+            private IDateTime timeStamp;
+            //= new DateTime();
+
+        public Log(IWriter writer, IDateTime timeStamp)
+        {
+            this.writer = writer;
+            this.timeStamp = timeStamp;
+        }
+
+        public Log()
+        {
+        }
 
         public void LogDoorLocked(int ID)
         {
