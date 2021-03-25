@@ -12,6 +12,7 @@ namespace ChargingMonitor.Test.Unit.Log_testklasser
         private LogFiles.Log _uut;
         private IWriter fileWriter;
         private IDateTime dateTime;
+
         [SetUp]
         public void SetUp()
         {
@@ -51,12 +52,19 @@ namespace ChargingMonitor.Test.Unit.Log_testklasser
             });
         }
 
-        [TestCase()]//Forskellige timeStamps
-        public void LogDoorUnlock_DoorLockedLogged_FileWriterDateTimeRecivesACall(string message, int id)
+        [TestCase("DATO",21)]//Forskellige timeStamps
+        [TestCase("November", 21)]
+        [TestCase("September", 21)]
+        [TestCase("Januar", 21)]
+        [TestCase("Februar", 21)]
+        public void LogDoorUnlock_DoorLockedLogged_DateTimeReturnsCorrect(string message, int id)
         {
+            //Act
             dateTime.timeStamp().Returns(message);
-
             _uut.LogDoorLocked(id);
+            
+            //Assert
+            Assert.That(_uut.dateRecived,Is.EqualTo(message));
         }
     }
 }

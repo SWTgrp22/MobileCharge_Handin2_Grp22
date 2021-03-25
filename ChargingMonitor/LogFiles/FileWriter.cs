@@ -12,7 +12,6 @@ namespace ChargingMonitor.LogFiles
         public FileWriter(string filename)
         {
             _filename = filename;
-
         }
 
         public void Write(string dateTime, string s, int id)
