@@ -24,23 +24,37 @@ namespace ChargingMonitor.Test.Unit.Log_testklasser
         [TestCase(2)]
         [TestCase(10)]
         [TestCase(100)]
-        [TestCase(1000)]
-        public void LogDoorUnlock_DoorUnLockedLogged_FileWriterRecivesACall(int ID)
+        [TestCase(1000)]//Forskellige ID-inputs
+        public void LogDoorUnlock_DoorUnLockedLogged_FileWriterDateTimeRecivesACall(int ID)
         {
             _uut.LogDoorUnLocked(ID);
 
-            fileWriter.Received(1).Write("", ": Skab låst op med RFID: ", ID);
+            Assert.Multiple(() =>
+            {
+                dateTime.Received(1).timeStamp();
+                fileWriter.Received(1).Write("", ": Skab låst op med RFID: ", ID);
+            });
         }
 
         [TestCase(2)]
         [TestCase(10)]
         [TestCase(100)]
-        [TestCase(1000)]
-        public void LogDoorUnlock_DoorLockedLogged_FileWriterRecivesACall(int ID)
+        [TestCase(1000)]//Forskellige ID-inputs
+        public void LogDoorUnlock_DoorLockedLogged_FileWriterDateTimeRecivesACall(int ID)
         {
             _uut.LogDoorLocked(ID);
 
-            fileWriter.Received(1).Write("", ": Skab låst med RFID: ", ID);
+            Assert.Multiple(() =>
+            {
+                dateTime.Received(1).timeStamp();
+                fileWriter.Received(1).Write("", ": Skab låst med RFID: ", ID);
+            });
+        }
+
+        [TestCase()]//Forskellige timeStamps
+        public void LogDoorUnlock_DoorLockedLogged_FileWriterDateTimeRecivesACall(string message)
+        {
+            dateTime.timeStamp().Returns(message);
         }
     }
 }

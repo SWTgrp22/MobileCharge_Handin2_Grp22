@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ChargingMonitor.LogFiles
 {
-    public class FileWriter
+    public class FileWriter:IWriter
     {
         private string _filename;
 

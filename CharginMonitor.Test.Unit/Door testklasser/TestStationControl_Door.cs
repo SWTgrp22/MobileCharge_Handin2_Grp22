@@ -29,7 +29,7 @@ namespace ChargingMonitor.Test.Unit
         {
             door.doorChangedEvent += Raise.EventWith(new DoorEventArg {doorIsopen = true});
 
-            var expectedState = Ladeskab.StationControl.LadeskabState.Available;
+            var expectedState = Ladeskab.StationControl.LadeskabState.DoorOpen;
 
             //Da Avaiable er default værdi for enum Ladeskab testes der for hvilken besked der sendes til display
             Assert.Multiple(() =>
@@ -44,7 +44,7 @@ namespace ChargingMonitor.Test.Unit
         {
             door.doorChangedEvent += Raise.EventWith(new DoorEventArg { doorIsopen = false });
 
-            var expectedState = Ladeskab.StationControl.LadeskabState.Available;
+            var expectedState = Ladeskab.StationControl.LadeskabState.DoorOpen;
 
             //Da Avaiable er default værdi for enum Ladeskab testes der for hvilken besked der sendes til display
             Assert.That(_uut.message, Is.EqualTo("Hold dit RFID tag op til scanneren"));

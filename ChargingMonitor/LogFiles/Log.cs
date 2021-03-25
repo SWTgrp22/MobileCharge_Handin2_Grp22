@@ -16,6 +16,8 @@ namespace ChargingMonitor.LogFiles
 
         public Log()
         {
+            writer = new FileWriter("LogFile.txt");
+            timeStamp = new DateTime();
         }
 
         public void LogDoorLocked(int ID)
