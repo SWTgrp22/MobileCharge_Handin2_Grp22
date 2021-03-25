@@ -56,7 +56,7 @@ namespace Ladeskab
             { 
                 message = "Tilslut telefon";
               _display.ShowMessage(message);
-              _state = LadeskabState.Available;
+              _state = LadeskabState.DoorOpen;
             }
             else
             {

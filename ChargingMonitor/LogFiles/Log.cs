@@ -5,9 +5,8 @@ namespace ChargingMonitor.LogFiles
     public class Log : ILog
     {
         private IWriter writer;
-            //= new FileWriter("Logfile.txt");
-            private IDateTime timeStamp;
-            //= new DateTime();
+        private IDateTime timeStamp;
+        public string dateRecived { get; set; } = "";
 
         public Log(IWriter writer, IDateTime timeStamp)
         {
@@ -17,16 +16,20 @@ namespace ChargingMonitor.LogFiles
 
         public Log()
         {
+            writer = new FileWriter("LogFile.txt");
+            timeStamp = new DateTime();
         }
 
         public void LogDoorLocked(int ID)
         {
-            writer.Write(timeStamp.timeStamp(), ": Skab låst med RFID: ", ID);
+            dateRecived = timeStamp.timeStamp();
+            writer.Write(dateRecived, ": Skab låst med RFID: ", ID);
         }
 
         public void LogDoorUnLocked(int ID)
         {
-            writer.Write(timeStamp.timeStamp(), ": Skab låst op med RFID: ", ID);
+            dateRecived = timeStamp.timeStamp();
+            writer.Write(dateRecived, ": Skab låst op med RFID: ", ID);
         }
     }
 }
