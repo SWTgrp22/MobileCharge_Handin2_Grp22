@@ -4,7 +4,8 @@ using System.Text;
 
 namespace ChargingMonitor.LogFiles
 {
-    interface IWriter
+    public interface IWriter
     {
+        void Write(string timeStamp, string s, int id);
     }
 }

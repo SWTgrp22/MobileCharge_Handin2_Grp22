@@ -4,7 +4,12 @@ using System.Text;
 
 namespace ChargingMonitor.LogFiles
 {
-    class DateTime
+    public class DateTime
     {
+        public string timeStamp()
+        {
+            string result = System.DateTime.Now.ToString();
+            return result;
+        }
     }
 }

@@ -4,14 +4,17 @@ namespace ChargingMonitor.LogFiles
 {
     public class Log : ILog
     {
+        private FileWriter writer = new FileWriter("Logfile.txt");
+        private DateTime timeStamp = new DateTime();
+
         public void LogDoorLocked(int ID)
         {
-            throw new NotImplementedException();
+            writer.Write(timeStamp.timeStamp(), ": Skab låst med RFID: ", ID);
         }
 
         public void LogDoorUnLocked(int ID)
         {
-            throw new NotImplementedException();
+            writer.Write(timeStamp.timeStamp(), ": Skab låst op med RFID: ", ID);
         }
     }
 }
