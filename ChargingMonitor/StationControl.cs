@@ -58,19 +58,25 @@ namespace Ladeskab
                 message = "Tilslut telefon";
               _display.ShowMessage(message);
               _state = LadeskabState.DoorOpen;
+                //Når programmet kører, kommer det aldrig ind i den case i RfidDetected-metoden da
+                //_state her bliver sat til DoorOpen. For at kunne gøre dette er der tilføjet en if-sætning til HandleRfidReaderEventArg() 
             }
             else
             {
                 message = "Hold dit RFID tag op til scanneren";
                _display.ShowMessage(message);
-                //RfidDetected();
-                
             }
         }
 
         private void HandleRfidReaderEventArg(object sender, RFIDReaderEventArg e)
         {
-            _rfidID = e.ID; 
+            _rfidID = e.ID;
+
+            if (_state == LadeskabState.DoorOpen)
+            {
+                _state = LadeskabState.Available;
+            }
+
             RfidDetected(_rfidID);
         }
 
@@ -100,7 +106,7 @@ namespace Ladeskab
                     break;
 
                 case LadeskabState.DoorOpen:
-                    // Ignore
+                    _display.ShowMessage("Døren er åben");
                     break;
 
                 case LadeskabState.Locked:

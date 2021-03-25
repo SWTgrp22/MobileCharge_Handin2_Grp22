@@ -14,7 +14,8 @@ namespace MobileCharge_Handin2_Grp22
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            
+
+            // Assemble your system here from all the classes
             var door = new Door();
             IUsbCharger usbCharger = new UsbChargerSimulator();
             var charger = new ChargeControl(usbCharger);
@@ -24,43 +25,46 @@ namespace MobileCharge_Handin2_Grp22
 
             var stationControl = new StationControl(door, charger, reader, display, log);
 
-            // Assemble your system here from all the classes
+            bool finish = false;
+            do
+            {
+                string input;
+                System.Console.WriteLine("Indtast E, O, C, R, T: ");
+                input = Console.ReadLine();
+                if (string.IsNullOrEmpty(input)) continue;
 
-            //bool finish = false;
-            //do
-            //{
-            //    string input;
-            //    System.Console.WriteLine("Indtast E, O, C, R: ");
-            //    input = Console.ReadLine();
-            //    if (string.IsNullOrEmpty(input)) continue;
+                switch (input[0])
+                {
+                    case 'E':
+                        finish = true;
+                        break;
 
-            //    switch (input[0])
-            //    {
-            //        case 'E':
-            //            finish = true;
-            //            break;
+                    case 'O':
+                        door.SimulateDoorOpens();
+                        break;
 
-            //        case 'O':
-            //            door.OnDoorOpen();
-            //            break;
+                    case 'C':
+                        door.SimulateDoorCloses();
+                        break;
 
-            //        case 'C':
-            //            door.OnDoorClose();
-            //            break;
+                    case 'R':
+                        System.Console.WriteLine("Indtast RFID id: ");
+                        string idString = System.Console.ReadLine();
 
-            //        case 'R':
-            //            System.Console.WriteLine("Indtast RFID id: ");
-            //            string idString = System.Console.ReadLine();
+                        int id = Convert.ToInt32(idString);
+                        reader.SimulateDetection();
+                        reader.RfidDetected(id);
+                        break;
 
-            //            int id = Convert.ToInt32(idString);
-            //            rfidReader.OnRfidRead(id);
-            //            break;
+                    case 'T':// Tilføjet for at kunne "Connected" telefonen til opladeren.
+                        charger.Connected = true;
+                        break;
 
-            //        default:
-            //            break;
-            //    }
+                    default:
+                        break;
+                }
 
-            //} while (!finish);
+            } while (!finish);
         }
     }
 }
