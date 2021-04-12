@@ -6,6 +6,7 @@ using ChargingMonitor.LogFiles;
 using ChargingMonitor.RFIDReader;
 using Ladeskab;
 using UsbSimulator;
+using DateTime = ChargingMonitor.LogFiles.DateTime;
 
 namespace MobileCharge_Handin2_Grp22
 {
@@ -21,7 +22,9 @@ namespace MobileCharge_Handin2_Grp22
             var charger = new ChargeControl(usbCharger);
             var reader = new RfidReader();
             var display = new Display();
-            var log = new Log();
+            var fileWriter = new FileWriter("LogFile.txt");
+            var timeStamp = new DateTime();
+            var log = new Log(fileWriter,timeStamp);
 
             var stationControl = new StationControl(door, charger, reader, display, log);
 

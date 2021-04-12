@@ -5,7 +5,7 @@ using ChargingMonitor.LogFiles;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace ChargingMonitor.Test.Unit.Log_testklasser
+namespace ChargingMonitor.Test.Unit
 {
     public class TestLog
     {

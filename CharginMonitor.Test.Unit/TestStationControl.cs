@@ -8,9 +8,9 @@ using Ladeskab;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace ChargingMonitor.Test.Unit.RFID_testklasser
+namespace ChargingMonitor.Test.Unit
 {
-    public class TestStationControl_LadeskabIsLocked
+    public class TestStationControl
     {
         private StationControl _uut;
         private IRFIDReader rfidReader;
@@ -31,6 +31,8 @@ namespace ChargingMonitor.Test.Unit.RFID_testklasser
                 display, log);
         }
 
+        #region Ladeskab Is Locked
+        
         [TestCase(0)]
         [TestCase(210)]
         [TestCase(555555)]
@@ -201,7 +203,150 @@ namespace ChargingMonitor.Test.Unit.RFID_testklasser
             display.Received(1).ShowMessage("Forkert RFID tag");
         }
 
+        #endregion
 
+        #region Ladeskab State Is Avalible
+
+        [Test]
+        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsConnected_CalsLockDoor()
+        {
+            //Act
+            chargeControl.Connected = true;
+
+            rfidReader.RFIDReaderEvent += Raise.EventWith(new RFIDReaderEventArg { ID = 21 });
+
+            door.Received(1).LockDoor();
+        }
+
+        [Test]
+        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsConnected_CalsStartCharge()
+        {
+            //Act
+            chargeControl.Connected = true;
+
+            rfidReader.RFIDReaderEvent += Raise.EventWith(new RFIDReaderEventArg { ID = 21 });
+
+            chargeControl.Received(1).StartCharge();
+        }
+
+        [TestCase(21)]
+        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsConnected_CalsLogDoorLocked(int newId)
+        {
+            //Act
+            chargeControl.Connected = true;
+
+            rfidReader.RFIDReaderEvent += Raise.EventWith(new RFIDReaderEventArg { ID = newId });
+
+            log.Received(1).LogDoorLocked(newId);
+        }
+
+        [Test]
+        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsConnected_StateChangeToLocked()
+        {
+            //Act
+            chargeControl.Connected = true;
+
+            rfidReader.RFIDReaderEvent += Raise.EventWith(new RFIDReaderEventArg { ID = 21 });
+
+            var expectedState = Ladeskab.StationControl.LadeskabState.Locked;
+
+            //Assert
+            Assert.That(_uut._state, Is.EqualTo(expectedState));
+        }
+
+
+        //TODO Her skifter vi til at teste uden telefonen er tilsuttet 
+
+        [Test]
+        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsNOTConnected_DoesNotCalLockDoor()
+        {
+            //Act
+            chargeControl.Connected = false;
+            rfidReader.RFIDReaderEvent += Raise.EventWith(new RFIDReaderEventArg { ID = 21 });
+
+            door.Received(0).LockDoor();
+        }
+
+        [Test]
+        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsNOTConnected_DoesNotCalStartCharge()
+        {
+            //Act
+            chargeControl.Connected = false;
+            rfidReader.RFIDReaderEvent += Raise.EventWith(new RFIDReaderEventArg { ID = 21 });
+
+            chargeControl.Received(0).StartCharge();
+        }
+
+        [TestCase(21)]
+        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsNOTConnected_DoesNotCalLogDoorLocked(int newId)
+        {
+            //Act
+            chargeControl.Connected = false;
+            rfidReader.RFIDReaderEvent += Raise.EventWith(new RFIDReaderEventArg { ID = newId });
+
+            log.Received(0).LogDoorLocked(newId);
+        }
+
+        [Test]
+        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsNOTConnected_CalsDisplayShowMessage()
+        {
+            //Act
+
+            rfidReader.RFIDReaderEvent += Raise.EventWith(new RFIDReaderEventArg { ID = 21 });
+
+            display.Received(1).ShowMessage("Din telefon er ikke ordentlig tilsluttet. Prøv igen.");
+        }
+        #endregion
+
+        #region Rfid Reader
+        [TestCase(0)]
+        [TestCase(210)]
+        [TestCase(555555)]
+        [TestCase(2147483647)]
+        public void RfidDetected_DetectedTag_IDIsEqualToID(int newId)
+        {
+            //Act
+            rfidReader.RFIDReaderEvent += Raise.EventWith(new RFIDReaderEventArg { ID = newId });
+
+            //Assert
+            Assert.That(_uut._rfidID, Is.EqualTo(newId));
+
+        }
+        #endregion
+        
+        #region Door
+        [Test]
+        public void DoorStatusChanged_doorIsOpenIsTrue_CorrectMessageWasSend()
+        {
+            door.doorChangedEvent += Raise.EventWith(new DoorEventArg { doorIsopen = true });
+
+            var expectedState = Ladeskab.StationControl.LadeskabState.DoorOpen;
+
+            //Da Avaiable er default værdi for enum Ladeskab testes der for hvilken besked der sendes til display
+            Assert.Multiple(() =>
+            {
+                Assert.That(_uut._state, Is.EqualTo(expectedState));
+                //Assert.That(_uut.message, Is.EqualTo("Tilslut telefon"));
+                display.Received().ShowMessage("Tilslut telefon");
+            });
+        }
+
+        [Test]
+        public void DoorStatusChanged_doorIsOpenIsFalse_CorrectMessageWasSend()
+        {
+            door.doorChangedEvent += Raise.EventWith(new DoorEventArg { doorIsopen = false });
+
+            var expectedState = Ladeskab.StationControl.LadeskabState.Available;
+
+            //Da Avaiable er default værdi for enum Ladeskab testes der for hvilken besked der sendes til display
+            Assert.Multiple(() =>
+            {
+                Assert.That(_uut._state, Is.EqualTo(expectedState));
+                //Assert.That(_uut.message, Is.EqualTo("Hold dit RFID tag op til scanneren"));
+                display.Received().ShowMessage("Hold dit RFID tag op til scanneren");
+            });
+        }
+        #endregion
 
     }
 }
