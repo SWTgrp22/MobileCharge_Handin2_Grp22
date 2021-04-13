@@ -1,4 +1,5 @@
 ﻿using System;
+using ChargingMonitor.Display;
 using UsbSimulator;
 
 namespace ChargingMonitor
@@ -8,9 +9,11 @@ namespace ChargingMonitor
         public bool Connected { get; set; }
         private IUsbCharger usbCharger;
         public double CurrentCurrent;
+        public IDisplay _Display;
 
-        public ChargeControl(IUsbCharger usbCharger)
+        public ChargeControl(IUsbCharger usbCharger, IDisplay display)
         {
+            _Display = display;
             this.usbCharger = usbCharger;
             usbCharger.CurrentValueEvent += HandleUSBChargeEvent;// det der svarer til den gamle attach()
         }
@@ -32,18 +35,18 @@ namespace ChargingMonitor
             if (CurrentCurrent > 0 && CurrentCurrent <= 5)
             {
                 usbCharger.StopCharge();
-                Console.WriteLine("Telefonen er fuldt opladt");
+                _Display.ShowMessage("Telefonen er fuldt opladt");
                 Connected = true;
             }
             else if (CurrentCurrent > 5 && CurrentCurrent <= 500)
             {
-                Console.WriteLine("Oplader telefon...");
+                _Display.ShowMessage("Oplader telefon...");
                 Connected = true;
             }
             else if (CurrentCurrent > 500)
             {
                 usbCharger.StopCharge();
-                Console.WriteLine("Error..."); 
+                _Display.ShowMessage("Error..."); 
                 Connected = true;
             }
             else if (CurrentCurrent ==0)

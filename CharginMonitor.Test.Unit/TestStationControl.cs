@@ -298,7 +298,7 @@ namespace ChargingMonitor.Test.Unit
         }
         #endregion
 
-        #region Rfid Reader
+        #region Rfid detected
         [TestCase(0)]
         [TestCase(210)]
         [TestCase(555555)]
@@ -310,10 +310,47 @@ namespace ChargingMonitor.Test.Unit
 
             //Assert
             Assert.That(_uut._rfidID, Is.EqualTo(newId));
-
         }
+
+        [TestCase(0)]
+        [TestCase(210)]
+        [TestCase(555555)]
+        [TestCase(2147483647)]
+        public void RfidDetected_DetectedTag_StateChangesToAviable(int newId)
+        {
+            //Act
+            door.doorChangedEvent += Raise.EventWith(new DoorEventArg { doorIsopen = true });
+
+            rfidReader.RFIDReaderEvent += Raise.EventWith(new RFIDReaderEventArg { ID = newId });
+
+            //Assert
+            Assert.That(_uut._state, Is.EqualTo(StationControl.LadeskabState.Available));
+        }
+
+        //[TestCase(0)]
+        //[TestCase(210)]
+        //[TestCase(555555)]
+        //[TestCase(2147483647)]
+        //public void DoorStatusChanged_StateIsDoorOpen_CorrectMessageWasSend(int newId)
+        //{
+        //    door.doorChangedEvent += Raise.EventWith(new DoorEventArg { doorIsopen = true });
+
+        //    rfidReader.RFIDReaderEvent += Raise.EventWith(new RFIDReaderEventArg { ID = newId });
+
+        //    var expectedState = Ladeskab.StationControl.LadeskabState.DoorOpen;
+
+        //    //Da Avaiable er default værdi for enum Ladeskab testes der for hvilken besked der modtages i display
+        //    Assert.Multiple(() =>
+        //    {
+        //        Assert.That(_uut._state, Is.EqualTo(expectedState));
+        //        //Assert.That(_uut.message, Is.EqualTo("Døren er åben"));
+        //        display.Received().ShowMessage("Døren er åben");
+        //    });
+        //}
         #endregion
-        
+
+
+
         #region Door
         [Test]
         public void DoorStatusChanged_doorIsOpenIsTrue_CorrectMessageWasSend()
@@ -322,7 +359,7 @@ namespace ChargingMonitor.Test.Unit
 
             var expectedState = Ladeskab.StationControl.LadeskabState.DoorOpen;
 
-            //Da Avaiable er default værdi for enum Ladeskab testes der for hvilken besked der sendes til display
+            //Da Avaiable er default værdi for enum Ladeskab testes der for hvilken besked der modtages i display
             Assert.Multiple(() =>
             {
                 Assert.That(_uut._state, Is.EqualTo(expectedState));
@@ -338,7 +375,7 @@ namespace ChargingMonitor.Test.Unit
 
             var expectedState = Ladeskab.StationControl.LadeskabState.Available;
 
-            //Da Avaiable er default værdi for enum Ladeskab testes der for hvilken besked der sendes til display
+            //Da Avaiable er default værdi for enum Ladeskab testes der for hvilken besked der sendes til modtages i display
             Assert.Multiple(() =>
             {
                 Assert.That(_uut._state, Is.EqualTo(expectedState));
@@ -346,6 +383,8 @@ namespace ChargingMonitor.Test.Unit
                 display.Received().ShowMessage("Hold dit RFID tag op til scanneren");
             });
         }
+
+        
         #endregion
 
     }

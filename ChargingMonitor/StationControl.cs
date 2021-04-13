@@ -106,7 +106,7 @@ namespace Ladeskab
                     break;
 
                 case LadeskabState.DoorOpen:
-                    _display.ShowMessage("Døren er åben");
+                    //Ignore
                     break;
 
                 case LadeskabState.Locked:

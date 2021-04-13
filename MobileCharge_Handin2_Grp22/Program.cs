@@ -19,7 +19,8 @@ namespace MobileCharge_Handin2_Grp22
             // Assemble your system here from all the classes
             var door = new Door();
             IUsbCharger usbCharger = new UsbChargerSimulator();
-            var charger = new ChargeControl(usbCharger);
+            var chargeDisplay = new ChargeDisplay();
+            var charger = new ChargeControl(usbCharger, chargeDisplay);
             var reader = new RfidReader();
             var display = new Display();
             var fileWriter = new FileWriter("LogFile.txt");

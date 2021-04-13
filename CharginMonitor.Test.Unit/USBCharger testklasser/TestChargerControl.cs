@@ -1,4 +1,5 @@
 using ChargingMonitor;
+using ChargingMonitor.Display;
 using NSubstitute;
 using NUnit.Framework;
 using UsbSimulator;
@@ -9,13 +10,15 @@ namespace CharginMonitor.Test.Unit
     {
         private ChargeControl _uut;
         private IUsbCharger _usbCharger;
+        private IDisplay _display;
 
         [SetUp]
         public void Setup()
         {
             //Arrange
+            _display = Substitute.For<IDisplay>();
             _usbCharger = Substitute.For<IUsbCharger>();
-            _uut = new ChargeControl(_usbCharger);
+            _uut = new ChargeControl(_usbCharger, _display);
         }
 
         [TestCase(0.1)]
