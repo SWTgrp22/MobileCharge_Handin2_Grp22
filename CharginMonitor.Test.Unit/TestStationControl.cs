@@ -208,7 +208,7 @@ namespace ChargingMonitor.Test.Unit
         #region Ladeskab State Is Avalible
 
         [Test]
-        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsConnected_CalsLockDoor()
+        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsConnected_CallsLockDoor()
         {
             //Act
             chargeControl.Connected = true;
@@ -219,7 +219,7 @@ namespace ChargingMonitor.Test.Unit
         }
 
         [Test]
-        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsConnected_CalsStartCharge()
+        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsConnected_CallsStartCharge()
         {
             //Act
             chargeControl.Connected = true;
@@ -230,7 +230,7 @@ namespace ChargingMonitor.Test.Unit
         }
 
         [TestCase(21)]
-        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsConnected_CalsLogDoorLocked(int newId)
+        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsConnected_CallsLogDoorLocked(int newId)
         {
             //Act
             chargeControl.Connected = true;
@@ -250,7 +250,7 @@ namespace ChargingMonitor.Test.Unit
 
             var expectedState = Ladeskab.StationControl.LadeskabState.Locked;
 
-            //Assert
+            //Assert - denne bør ændres til at være mere blackbox fremfor white box, men vi kunne ikke lige overskue hvordan:
             Assert.That(_uut._state, Is.EqualTo(expectedState));
         }
 
@@ -258,42 +258,46 @@ namespace ChargingMonitor.Test.Unit
         //TODO Her skifter vi til at teste uden telefonen er tilsuttet 
 
         [Test]
-        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsNOTConnected_DoesNotCalLockDoor()
+        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsNOTConnected_DoesNotCallLockDoor()
         {
             //Act
             chargeControl.Connected = false;
             rfidReader.RFIDReaderEvent += Raise.EventWith(new RFIDReaderEventArg { ID = 21 });
 
+            //Assert
             door.Received(0).LockDoor();
         }
 
         [Test]
-        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsNOTConnected_DoesNotCalStartCharge()
+        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsNOTConnected_DoesNotCallStartCharge()
         {
             //Act
             chargeControl.Connected = false;
             rfidReader.RFIDReaderEvent += Raise.EventWith(new RFIDReaderEventArg { ID = 21 });
 
+            //Assert
             chargeControl.Received(0).StartCharge();
         }
 
         [TestCase(21)]
-        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsNOTConnected_DoesNotCalLogDoorLocked(int newId)
+        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsNOTConnected_DoesNotCallLogDoorLocked(int newId)
         {
             //Act
             chargeControl.Connected = false;
             rfidReader.RFIDReaderEvent += Raise.EventWith(new RFIDReaderEventArg { ID = newId });
 
+            //Assert
             log.Received(0).LogDoorLocked(newId);
         }
 
         [Test]
-        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsNOTConnected_CalsDisplayShowMessage()
+        public void RfidDeected_LadeskabstateIsAvalibleAndChargerIsNOTConnected_CallsDisplayShowMessage()
         {
             //Act
 
             rfidReader.RFIDReaderEvent += Raise.EventWith(new RFIDReaderEventArg { ID = 21 });
 
+            //Assert
             display.Received(1).ShowMessage("Din telefon er ikke ordentlig tilsluttet. Prøv igen.");
         }
         #endregion
@@ -326,64 +330,26 @@ namespace ChargingMonitor.Test.Unit
             //Assert
             Assert.That(_uut._state, Is.EqualTo(StationControl.LadeskabState.Available));
         }
-
-        //[TestCase(0)]
-        //[TestCase(210)]
-        //[TestCase(555555)]
-        //[TestCase(2147483647)]
-        //public void DoorStatusChanged_StateIsDoorOpen_CorrectMessageWasSend(int newId)
-        //{
-        //    door.doorChangedEvent += Raise.EventWith(new DoorEventArg { doorIsopen = true });
-
-        //    rfidReader.RFIDReaderEvent += Raise.EventWith(new RFIDReaderEventArg { ID = newId });
-
-        //    var expectedState = Ladeskab.StationControl.LadeskabState.DoorOpen;
-
-        //    //Da Avaiable er default værdi for enum Ladeskab testes der for hvilken besked der modtages i display
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.That(_uut._state, Is.EqualTo(expectedState));
-        //        //Assert.That(_uut.message, Is.EqualTo("Døren er åben"));
-        //        display.Received().ShowMessage("Døren er åben");
-        //    });
-        //}
         #endregion
-
-
-
-        #region Door
+        
+        #region Display call
         [Test]
-        public void DoorStatusChanged_doorIsOpenIsTrue_CorrectMessageWasSend()
+        public void DoorStatusChanged_doorIsOpenIsTrue_CorrectMessageWasReceived()
         {
             door.doorChangedEvent += Raise.EventWith(new DoorEventArg { doorIsopen = true });
-
-            var expectedState = Ladeskab.StationControl.LadeskabState.DoorOpen;
-
-            //Da Avaiable er default værdi for enum Ladeskab testes der for hvilken besked der modtages i display
-            Assert.Multiple(() =>
-            {
-                Assert.That(_uut._state, Is.EqualTo(expectedState));
-                //Assert.That(_uut.message, Is.EqualTo("Tilslut telefon"));
-                display.Received().ShowMessage("Tilslut telefon");
-            });
+            
+            //Assert
+            display.Received().ShowMessage("Tilslut telefon");
         }
 
         [Test]
-        public void DoorStatusChanged_doorIsOpenIsFalse_CorrectMessageWasSend()
+        public void DoorStatusChanged_doorIsOpenIsFalse_CorrectMessageWasReceived()
         {
             door.doorChangedEvent += Raise.EventWith(new DoorEventArg { doorIsopen = false });
 
-            var expectedState = Ladeskab.StationControl.LadeskabState.Available;
-
-            //Da Avaiable er default værdi for enum Ladeskab testes der for hvilken besked der sendes til modtages i display
-            Assert.Multiple(() =>
-            {
-                Assert.That(_uut._state, Is.EqualTo(expectedState));
-                //Assert.That(_uut.message, Is.EqualTo("Hold dit RFID tag op til scanneren"));
-                display.Received().ShowMessage("Hold dit RFID tag op til scanneren");
-            });
+            //Assert
+            display.Received().ShowMessage("Hold dit RFID tag op til scanneren");
         }
-
         
         #endregion
 

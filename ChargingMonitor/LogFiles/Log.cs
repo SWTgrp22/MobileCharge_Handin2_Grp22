@@ -13,13 +13,6 @@ namespace ChargingMonitor.LogFiles
             this.writer = writer;
             this.timeStamp = timeStamp;
         }
-
-        //public Log()
-        //{
-        //    writer = new FileWriter("LogFile.txt");
-        //    timeStamp = new DateTime();
-        //}
-
         public void LogDoorLocked(int ID)
         {
             dateRecived = timeStamp.timeStamp();
